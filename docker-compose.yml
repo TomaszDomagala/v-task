@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:14.3
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+  emailmanager:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+volumes:
+    db-data:
